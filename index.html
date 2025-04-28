@@ -25,6 +25,7 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
         }
 
         #loading {
@@ -35,12 +36,18 @@
             font-size: 24px;
             color: #333;
             display: none;
+            z-index: 9998;
         }
 
         #zoomControl {
             position: fixed;
-            top: 50px;
+            top: 100px;
             left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
         }
 
         .openseadragon-container .openseadragon-controls {
@@ -91,27 +98,32 @@
             }
         });
 
-        // Función para cargar todas las imágenes en el visor
-        function cargarTodasLasImagenes(imagenes) {
-            imagenes.forEach(nombre => {
-                viewer.addTiledImage({
-                    tileSource: `${nombre}.dzi`
-                });
-            });
-        }
-
         // Función para cargar una imagen en el visor
         function cargarImagen(nombre) {
             document.getElementById("loading").style.display = "block";  // Mostrar indicador de carga
-            viewer.open(`${nombre}.dzi`, () => {
+            viewer.open(nombre).then(() => {
                 document.getElementById("loading").style.display = "none";  // Ocultar indicador de carga
+            }).catch(error => {
+                console.error("Error al cargar la imagen:", error);
+                document.getElementById("loading").style.display = "none";
+            });
+        }
+
+        // Función para cargar todas las imágenes en el visor (opcional si quieres precargar)
+        function cargarTodasLasImagenes(imagenes) {
+            imagenes.forEach(nombre => {
+                viewer.addTiledImage({
+                    tileSource: nombre
+                });
             });
         }
 
         // Control deslizante para el zoom
         const zoomControl = document.getElementById("zoom");
         zoomControl.addEventListener("input", function() {
-            viewer.viewport.zoomTo(parseFloat(zoomControl.value));
+            if (viewer.viewport) {
+                viewer.viewport.zoomTo(parseFloat(zoomControl.value));
+            }
         });
 
         // Cargar lista de imágenes desde imagenes.json
@@ -120,25 +132,27 @@
             .then(imagenes => {
                 const selector = document.getElementById("imagenSelect");
 
-                // Llenar el select con los nombres
+                // Llenar el select con los nombres de las imágenes
                 imagenes.forEach(nombre => {
                     const option = document.createElement("option");
                     option.value = nombre;
-                    option.textContent = nombre;
+                    // Mostrar un nombre más limpio
+                    option.textContent = nombre.replace('.ome_dzi.dzi', '').replace('.dzi', '');
                     selector.appendChild(option);
                 });
 
                 // Cargar la primera imagen por defecto
                 if (imagenes.length > 0) {
                     cargarImagen(imagenes[0]);
-                    cargarTodasLasImagenes(imagenes);  // Pre-cargar las imágenes
+                    // Opcional: cargarTodasLasImagenes(imagenes);  // Solo si quieres precargar todas
                 }
 
                 // Cambiar imagen cuando seleccionan otra
                 selector.addEventListener("change", function () {
                     cargarImagen(this.value);
                 });
-            });
+            })
+            .catch(error => console.error("Error cargando imagenes.json:", error));
     </script>
 </body>
 </html>
