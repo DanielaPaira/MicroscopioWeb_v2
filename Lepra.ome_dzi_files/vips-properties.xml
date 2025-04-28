@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<image xmlns="http://www.vips.ecs.soton.ac.uk//dzsave" date="2025-04-25T12:26:52.957756-03" version="8.14.4">
+  <properties>
+    <property>
+      <name>width</name>
+      <value type="gint">11520</value>
+    </property>
+    <property>
+      <name>height</name>
+      <value type="gint">31680</value>
+    </property>
+    <property>
+      <name>bands</name>
+      <value type="gint">3</value>
+    </property>
+    <property>
+      <name>xoffset</name>
+      <value type="gint">0</value>
+    </property>
+    <property>
+      <name>yoffset</name>
+      <value type="gint">0</value>
+    </property>
+    <property>
+      <name>xres</name>
+      <value type="gdouble">1996.099365234375</value>
+    </property>
+    <property>
+      <name>yres</name>
+      <value type="gdouble">1996.099365234375</value>
+    </property>
+    <property>
+      <name>vips-loader</name>
+      <value type="VipsRefString">tiffload</value>
+    </property>
+    <property>
+      <name>n-pages</name>
+      <value type="gint">1</value>
+    </property>
+    <property>
+      <name>image-description</name>
+      <value type="VipsRefString">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&lt;!-- Warning: this comment is an OME-XML metadata block, which contains crucial dimensional parameters and other important metadata. Please edit cautiously (if at all), and back up the original data before doing so. For more information, see the OME-TIFF web site: https://docs.openmicroscopy.org/latest/ome-model/ome-tiff/. --&gt;&lt;OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Creator="OME Bio-Formats 7.0.1" UUID="urn:uuid:c67aa70e-fb24-4136-b0aa-f4015727ccbc" xsi:schemaLocation="http://www.openmicroscopy.org/Schemas/OME/2016-06 http://www.openmicroscopy.org/Schemas/OME/2016-06/ome.xsd"&gt;&lt;Image ID="Image:0"&gt;&lt;Pixels BigEndian="true" DimensionOrder="XYCZT" ID="Pixels:0" Interleaved="true" PhysicalSizeX="0.500977039453801" PhysicalSizeXUnit="&#x23c2;&#x23b5;m" PhysicalSizeY="0.500977039453801" PhysicalSizeYUnit="&#x23c2;&#x23b5;m" SizeC="3" SizeT="1" SizeX="11520" SizeY="31680" SizeZ="1" Type="uint8"&gt;&lt;Channel ID="Channel:0" SamplesPerPixel="3"&gt;&lt;LightPath/&gt;&lt;/Channel&gt;&lt;TiffData FirstC="0" FirstT="0" FirstZ="0" IFD="0" PlaneCount="1"&gt;&lt;UUID FileName="Lepra.ome.tif"&gt;urn:uuid:c67aa70e-fb24-4136-b0aa-f4015727ccbc&lt;/UUID&gt;&lt;/TiffData&gt;&lt;/Pixels&gt;&lt;/Image&gt;&lt;StructuredAnnotations&gt;&lt;MapAnnotation ID="Annotation:Resolution:0" Namespace="openmicroscopy.org/PyramidResolution"&gt;&lt;Value/&gt;&lt;/MapAnnotation&gt;&lt;/StructuredAnnotations&gt;&lt;/OME&gt;</value>
+    </property>
+    <property>
+      <name>resolution-unit</name>
+      <value type="VipsRefString">cm</value>
+    </property>
+    <property>
+      <name>orientation</name>
+      <value type="gint">1</value>
+    </property>
+    <property>
+      <name>vips-sequential</name>
+      <value type="gint">1</value>
+    </property>
+  </properties>
+</image>

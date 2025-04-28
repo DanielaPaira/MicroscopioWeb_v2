@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Microscopio Web v2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #viewer {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #menu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #333;
+            display: none;
+        }
+
+        #zoomControl {
+            position: fixed;
+            top: 50px;
+            left: 10px;
+        }
+
+        .openseadragon-container .openseadragon-controls {
+            position: fixed !important;
+            top: 80px !important;
+            right: 10px !important;
+            z-index: 9998 !important;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú de selección de imagen -->
+    <div id="menu">
+        <label for="imagenSelect">Seleccionar imagen: </label>
+        <select id="imagenSelect"></select>
+    </div>
+
+    <!-- Visor de imágenes -->
+    <div id="viewer"></div>
+
+    <!-- Indicador de carga -->
+    <div id="loading">Cargando imagen...</div>
+
+    <!-- Control deslizante de zoom -->
+    <div id="zoomControl">
+        <label for="zoom">Zoom:</label>
+        <input type="range" id="zoom" min="0.5" max="3" step="0.1" value="1">
+    </div>
+
+    <script>
+        // Inicializar el visor
+        const viewer = OpenSeadragon({
+            id: "viewer",
+            prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
+            showNavigator: true,
+            navigatorPosition: "BOTTOM_RIGHT",
+            defaultZoomLevel: 0,
+            zoomPerClick: 2,
+            gestureSettingsMouse: {
+                clickToZoom: true,
+                dblClickToZoom: true,
+                flickEnabled: true,
+                pinchToZoom: true
+            }
+        });
+
+        // Función para cargar todas las imágenes en el visor
+        function cargarTodasLasImagenes(imagenes) {
+            imagenes.forEach(nombre => {
+                viewer.addTiledImage({
+                    tileSource: `${nombre}.dzi`
+                });
+            });
+        }
+
+        // Función para cargar una imagen en el visor
+        function cargarImagen(nombre) {
+            document.getElementById("loading").style.display = "block";  // Mostrar indicador de carga
+            viewer.open(`${nombre}.dzi`, () => {
+                document.getElementById("loading").style.display = "none";  // Ocultar indicador de carga
+            });
+        }
+
+        // Control deslizante para el zoom
+        const zoomControl = document.getElementById("zoom");
+        zoomControl.addEventListener("input", function() {
+            viewer.viewport.zoomTo(parseFloat(zoomControl.value));
+        });
+
+        // Cargar lista de imágenes desde imagenes.json
+        fetch("imagenes.json")
+            .then(response => response.json())
+            .then(imagenes => {
+                const selector = document.getElementById("imagenSelect");
+
+                // Llenar el select con los nombres
+                imagenes.forEach(nombre => {
+                    const option = document.createElement("option");
+                    option.value = nombre;
+                    option.textContent = nombre;
+                    selector.appendChild(option);
+                });
+
+                // Cargar la primera imagen por defecto
+                if (imagenes.length > 0) {
+                    cargarImagen(imagenes[0]);
+                    cargarTodasLasImagenes(imagenes);  // Pre-cargar las imágenes
+                }
+
+                // Cambiar imagen cuando seleccionan otra
+                selector.addEventListener("change", function () {
+                    cargarImagen(this.value);
+                });
+            });
+    </script>
+</body>
+</html>
